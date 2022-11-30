@@ -1,18 +1,22 @@
 import express from 'express';
 import cors from 'cors'
+import { productsRouter } from './routes/productsRoutes';
 
-const port = 9000;
+const port = process.env.PORT || 9000;
 
 const app = express();
 
-// const cors = require("cors");
 app.use(cors())
 app.use(express.json())
 
 
-app.get('/', (req, res) => {
-    res.send('Express + TypeScript Server');
-});
+app.use("/api/v1/", productsRouter)
+
+
+
+// app.get('/', (req, res) => {
+//     res.send('Express + TypeScript Server');
+// });
 
 
 
