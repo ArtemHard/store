@@ -36,7 +36,7 @@ interface dbType {
  products: [productsType]
 }
 
-interface UserType {
+export interface UserType {
     id: string,
     name: string,
     email: string,
