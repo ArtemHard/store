@@ -1,4 +1,4 @@
-import {db, UserType}  from '../data/db'
+import {db}  from '../data/db'
 import {Request, Response} from 'express';
 
 import jwt from 'jsonwebtoken'
@@ -13,7 +13,7 @@ const SignUp = (req: Request, res: Response) => {
     console.log(`${name} is trying to login ..`);
 
     db.persons.forEach(person => {
-        if (person.email === email || person.phone === person.phone) {
+        if (person.email === email || person.phone === phone) {
             res.status(400)
             .json({ message: "The email and password your provided are invalid" });
         }
