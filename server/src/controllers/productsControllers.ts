@@ -1,7 +1,8 @@
 import {db}  from '../data/db'
+import {Request, Response} from 'express';
 
 
-const getProducts = (req, res) => {
+const getProducts = (req: Request, res: Response) => {
     
   
     const data =  'dataFromServer'

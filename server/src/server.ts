@@ -3,6 +3,9 @@ import cors from 'cors'
 import { productsRouter } from './routes/productsRoutes';
 import { authRouter } from './routes/authRouts';
 
+const JWT_SECRET =
+  "goK!pusp6ThEdURUtRenOwUhAsWUCLheBazl!uJLPlS8EbreWLdrupIwabRAsiBu";
+
 const port = process.env.PORT || 9000;
 
 const app = express();
