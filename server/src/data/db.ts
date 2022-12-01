@@ -5,7 +5,7 @@ const db: dbType = {
             name: "Guest1",
             email: '321@mail.ru',
             password: "321",
-            phone: '+7 (915) 987-31-58',
+            phone: '+79159873158',
             orders: []
         }
     ],
