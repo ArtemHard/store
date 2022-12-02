@@ -1,9 +1,20 @@
 import {db, UserType}  from '../data/db'
 import {Request, Response} from 'express';
-import { v4 as uuidv4 } from 'uuid';
-
+// import { v4 as uuidv4 } from 'uuid';
+import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
+// import { authRouter } from '../routes/authRouts';
 
+const bcryptPass  = async ( data : string) : Promise<string>  => {
+    const hash = await bcrypt.hash(data, 1);
+    return hash
+    }
+
+const bcryptCompare = async (data: string, hash: string) => {
+        const result = await bcrypt.compare(data, hash);
+        return result;
+        }
+    
 const JWT_SECRET =
   "goK!pusp6ThEdURUtRenOwUhAsWUCLheBazl!uJLPlS8EbreWLdrupIwabRAsiBu";
 
@@ -12,7 +23,13 @@ const JWT_SECRET =
     .json({ message: "The email and password your provided are invalid" });
 }
 
-const  SignUp =  (req: Request, res: Response) : Response => {
+    const createToken = (userName: string, res: Response) : Response => {
+        return  res.json({
+            token: jwt.sign({ user: userName }, JWT_SECRET, {expiresIn : "120ms" } ),
+        });
+    }
+
+const  SignUp =  async (req: Request, res: Response) : Promise<Response> => {
     
     const { name, email, phone, password} : signInType = req.body
     console.log(`${name} is trying to login ..`);
@@ -28,54 +45,47 @@ const  SignUp =  (req: Request, res: Response) : Response => {
             return status400(res)
 
         }
-
-        // if ((person.email !== email && person.phone !== phone) && (person.email === email 
-        //     || person.phone === phone)) {
-            // res.status(400)
-            // .json({ message: "The email and password your provided are invalid" });
-        // }
     })
     if (dublicate === false ) {
 
-        const id = uuidv4() + ' ' + Date.now()
+        const id = Date.now().toString()
         const user : UserType = {
             id: id,
             email: email,
-            password: password,
+            password: await bcryptPass(password), 
             phone: phone,
             name: name,
             orders: []
         }
     
-        if (name && email && phone && password) {
+    if (name && email && phone && password) {
             db.persons.push(user)
             console.log(db.persons);
     
-            return  res.json({
-                token: jwt.sign({ user: "admin" }, JWT_SECRET, {expiresIn : "120ms" } ),
-            });
+            return   createToken(name, res).status(201)
     
         } else return res.status(400)
     }
     
-    /*
-    if (name === "admin" && password === "admin") {
-        return  res.json({
-            token: jwt.sign({ user: "admin" }, JWT_SECRET, {expiresIn : "120ms" } ),
-        });
-      }
-  
-      */
-    //    return res
-    //   .status(401)
-    //   .json({ message: "The email and password your provided are invalid" });
+    
 }
 
-const SignIn = (req: Request, res: Response): Response => {
-    console.log('signIn');
+const SignIn = async (req: Request, res: Response): Promise<Response> => {
     
+    const { email, password } : signInType = req.body
+    
+     const personIndex = db.persons.findIndex(person => person.email === email )
+        
+    if (personIndex !== (-1)) {
+        
+       const authorized = await bcryptCompare(password, db.persons[personIndex].password)   // сравниваем пароль
+       if (authorized === true) {
+         return res.status(200).json({ token: jwt.sign({ user: db.persons[personIndex].name }, JWT_SECRET, {expiresIn : "120ms" }) })
+       } 
 
-    return res.sendStatus(200).json({ message: "You need to be logged in to access this resource" });
+    }
+
+    return res.status(400).json({ message: "The email and password your provided are invalid" }) ;
 }
 
 const getUserInfo = (req: Request, res: Response): Response => {

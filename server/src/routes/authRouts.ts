@@ -12,6 +12,6 @@ authRouter.route('/users').post(SignUp)
 
 authRouter.route('/users/me').get(getUserInfo)
 
-authRouter.route('auth').post(SignIn)
+authRouter.route('/auth').post(SignIn)
 
 export {authRouter}
