@@ -1,25 +1,29 @@
 import { NextFunction } from 'express';
 import jwt from 'jsonwebtoken'
 import { JWT_SECRET } from '../controllers/authControllers';
+import {Request, Response} from 'express';
 
 type authMiddlewareType = Response | NextFunction
 
-export const authMiddleware = (req, res, next: NextFunction) : authMiddlewareType => {
+export default interface ICustomRequest extends Request {  // костыль TS ICustomRequest
+  userId: string;
+}
+export const authMiddleware = (req: ICustomRequest, res: Response, next: NextFunction) : authMiddlewareType => {
     console.log('Auth Middleware Work');
     
     if (!req.headers["authorization"] && ["x-access-token"]) return res.status(401).send("Access denied. No token provided.")
+    console.log();
     
-    const authHeader = req.headers["x-access-token"] || req.headers["authorization"];
-    const token = authHeader && authHeader.split(' ')[1]
+    const authHeader = req.headers["authorization"];
+    const token: string = authHeader && authHeader.split(' ')[1]
   
-    if (!token) return res.status(401).send("Access denied. No token provided.");
+    if (!token) return res.status(403).send("Access denied. No token provided.");
  
     try {
 
         const decoded = jwt.verify(token, JWT_SECRET);
-        console.log(decoded);
-        
-        req.user = decoded;
+ 
+        req.userId = decoded['user']  // костыль TS
         
         next();
    
