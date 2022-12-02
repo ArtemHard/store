@@ -15,7 +15,7 @@ const bcryptCompare = async (data: string, hash: string) => {
         return result;
         }
     
-const JWT_SECRET =
+export const JWT_SECRET =
   "goK!pusp6ThEdURUtRenOwUhAsWUCLheBazl!uJLPlS8EbreWLdrupIwabRAsiBu";
 
   const status400 = (res: Response) : Response => {
@@ -23,10 +23,8 @@ const JWT_SECRET =
     .json({ message: "The email and password your provided are invalid" });
 }
 
-    const createToken = (userName: string, res: Response) : Response => {
-        return  res.json({
-            token: jwt.sign({ user: userName }, JWT_SECRET, {expiresIn : "120ms" } ),
-        });
+    const createToken = (id)   => {
+        return   jwt.sign({ user: id }, JWT_SECRET, {expiresIn : "1h" } ) 
     }
 
 const  SignUp =  async (req: Request, res: Response) : Promise<Response> => {
@@ -60,9 +58,14 @@ const  SignUp =  async (req: Request, res: Response) : Promise<Response> => {
     
     if (name && email && phone && password) {
             db.persons.push(user)
-            console.log(db.persons);
-    
-            return   createToken(name, res).status(201)
+            const token = createToken(user.id)
+            const dataForUser = {
+                id: user.id,
+                email: user.email,
+                name: user.name,
+                token: token
+            }
+            return   res.json(dataForUser).status(201)
     
         } else return res.status(400)
     }
