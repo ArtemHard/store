@@ -2,7 +2,7 @@ export interface ProductsSliceType {
   products: [productType] | [];
 }
 
-interface productType {
+export interface productType {
   productId: number;
   title: string;
   description: string;

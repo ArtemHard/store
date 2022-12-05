@@ -1,9 +1,11 @@
 import "./App.css";
+import ProductList from "./components/ProductList/ProductList";
 
 function App() {
   return (
     <div className='container'>
       <h1>HEADER</h1>
+      <ProductList />
     </div>
   );
 }

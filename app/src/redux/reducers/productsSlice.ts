@@ -1,25 +1,23 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../store";
-/*  WORKS NOW*/
+import { ProductsSliceType, productType } from "./types/productsSliceType";
+
 const initialState: ProductsSliceType = {
   products: [],
 };
 
-export const userSlice = createSlice({
-  name: "user",
+export const productsSlice = createSlice({
+  name: "products",
   initialState,
   reducers: {
-    addUser: (state, action: PayloadAction<UserType>) => {
-      state.user = action.payload;
-    },
-    removeUser: (state) => {
-      state.user = null;
+    addProducts: (state, action: PayloadAction<[productType]>) => {
+      state.products = action.payload;
     },
   },
 });
 
-export const { addUser, removeUser } = userSlice.actions;
+export const { addProducts } = productsSlice.actions;
 
-export const userLog = (state: RootState) => state.user.user;
+export const getProducts = (state: RootState) => state.products.products;
 
-export default userSlice.reducer;
+export default productsSlice.reducer;
