@@ -1,19 +1,10 @@
-import express from "express"
+import express from "express";
 
+const productsRouter = express.Router();
 
-const productsRouter = express.Router()
+import { getProducts } from "../controllers/productsControllers";
+// import { authMiddleware } from "../middlewares/authMiddlewares"
 
-import { getProducts } from '../controllers/productsControllers'
-import { authMiddleware } from "../middlewares/authMiddlewares"
+productsRouter.route("/").get(getProducts); //authMiddleware
 
-productsRouter.route("/")
-                .get(authMiddleware ,getProducts)
-
-
-
-
-
-export {
-    productsRouter
-}
-
+export { productsRouter };

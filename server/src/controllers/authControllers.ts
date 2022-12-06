@@ -1,9 +1,7 @@
 import { db, UserType } from "../data/db";
 import { Request, Response } from "express";
-// import { v4 as uuidv4 } from 'uuid';
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-// import { authRouter } from '../routes/authRouts';
 
 const bcryptPass = async (data: string): Promise<string> => {
   const hash = await bcrypt.hash(data, 1);
@@ -28,9 +26,11 @@ const createToken = (id: string) => {
   return jwt.sign({ user: id }, JWT_SECRET, { expiresIn: "1h" });
 };
 
+/*Регистрация*/
+
 const SignUp = async (req: Request, res: Response): Promise<Response> => {
   const { name, email, phone, password }: signInType = req.body;
-  console.log(`${name} is trying to login ..`);
+  console.log(`${name} is trying to sign UP ..`);
   let dublicate = false;
   db.persons.forEach((person) => {
     if (person.email === email) {
@@ -62,6 +62,8 @@ const SignUp = async (req: Request, res: Response): Promise<Response> => {
         name: user.name,
         token: token,
       };
+      console.log(token);
+
       return res.json(dataForUser).status(201);
     } else return res.status(400);
   }
@@ -78,13 +80,11 @@ const SignIn = async (req: Request, res: Response): Promise<Response> => {
       db.persons[personIndex].password
     ); // сравниваем пароль
     if (authorized === true) {
-      return res
-        .status(200)
-        .json({
-          token: jwt.sign({ user: db.persons[personIndex].name }, JWT_SECRET, {
-            expiresIn: "120ms",
-          }),
-        });
+      return res.status(200).json({
+        token: jwt.sign({ user: db.persons[personIndex].name }, JWT_SECRET, {
+          expiresIn: "120ms",
+        }),
+      });
     }
   }
 

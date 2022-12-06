@@ -1,14 +1,8 @@
 import { db } from "../data/db";
-import { Response } from "express";
-import ICustomRequest from "../middlewares/authMiddlewares";
+import { Request, Response } from "express";
 
-const getProducts = (req: ICustomRequest, res: Response) => {
-  const isUser = db.persons.find((value) => req.userId === value.id);
-  console.log(isUser);
-
-  isUser
-    ? res.json(db.products)
-    : res.status(403).json("Подстава токен Есть а логина Нет");
+const getProducts = (req: Request, res: Response): Response => {
+  return res.status(200).json(db.products);
 };
 
 export { getProducts };
