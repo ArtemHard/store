@@ -1,45 +1,72 @@
 import { productsApi } from "../../redux/api/productsApi";
 import ProductItem from "../ProductCard/ProductItem";
 import { signInApi, signUpApi } from "../../redux/api/apiTypes/apiTypes";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { basketSlice } from "../../redux/reducers/basketSlice";
 
 const ProductList = () => {
-  const {
-    data: products,
-    error,
-    isLoading,
-  } = productsApi.useGetAllProductQuery();
+  // const {
+  //   data: products,
+  //   error,
+  //   isLoading,
+  // } = productsApi.useGetAllProductQuery();
 
-  const [signUp, {}] = productsApi.useSignUpMutation();
-  const [signIn, {}] = productsApi.useSignInMutation();
+  // const [signUp, {}] = productsApi.useSignUpMutation();
+  // const [signIn, {}] = productsApi.useSignInMutation();
 
-  const signUpHandler = async () => {
-    const user: signUpApi = {
-      name: "Artem",
-      email: "123@mail.ru",
-      password: "123456",
-      phone: "+791568432115",
+  const dispatch = useAppDispatch();
+
+  // const signUpHandler = async () => {
+  //   const user: signUpApi = {
+  //     name: "Artem",
+  //     email: "123@mail.ru",
+  //     password: "123456",
+  //     phone: "+791568432115",
+  //   };
+
+  //   await signUp(user);
+  // };
+
+  // const signInHandler = async () => {
+  //   const logInUser: signInApi = {
+  //     email: "123@mail.ru",
+  //     password: "123456",
+  //   };
+  //   await signIn(logInUser);
+  // };
+
+  const basketProducts = useAppSelector((store) => store.basket.basket);
+
+  const { addProductBasket, removeProductBasket } = basketSlice.actions;
+  const addProductHandler = () => {
+    const product = {
+      productId: 1,
+      count: 1,
     };
-
-    await signUp(user);
+    dispatch(addProductBasket({ ...product }));
   };
 
-  const signInHandler = async () => {
-    const logInUser: signInApi = {
-      email: "123@mail.ru",
-      password: "123456",
+  const removeProductHandler = () => {
+    const product = {
+      productId: 1,
+      count: 10,
     };
-    await signIn(logInUser);
+
+    dispatch(removeProductBasket({ ...product }));
   };
 
   return (
     <div className='products__list'>
-      <button onClick={signUpHandler}>SignUp</button>
-      <button onClick={signInHandler}>SignIn</button>
-      {isLoading && <h1>Идёт загрузка...</h1>}
-      {error && <h1>Произошла ошибка при загрузке</h1>}
+      {basketProducts.map((product) => `${product.count}`)}
+      <button onClick={addProductHandler}>+</button>
+      <button onClick={removeProductHandler}>-</button>
+      {/* <button onClick={signUpHandler}>SignUp</button> */}
+      {/* <button onClick={signInHandler}>SignIn</button> */}
+      {/* {isLoading && <h1>Идёт загрузка...</h1>} */}
+      {/* {error && <h1>Произошла ошибка при загрузке</h1>}
       {products?.map((product) => (
         <ProductItem key={product.productId} product={product} />
-      ))}
+      ))} */}
     </div>
   );
 };

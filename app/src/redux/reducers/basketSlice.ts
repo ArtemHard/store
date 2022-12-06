@@ -29,7 +29,7 @@ export const basketSlice = createSlice({
       } else if (basket.length === 0) basket.push(payloadObj);
       return state;
     },
-    removeProduct: (state, action: PayloadAction<productBasketType>) => {
+    removeProductBasket: (state, action: PayloadAction<productBasketType>) => {
       const basket = state.basket;
       const payloadObj = action.payload;
       if (basket.length > 0) {
@@ -48,7 +48,7 @@ export const basketSlice = createSlice({
   },
 });
 
-export const { addProductBasket } = basketSlice.actions;
+export const { addProductBasket, removeProductBasket } = basketSlice.actions;
 
 export const getProductsBasket = (state: RootState) => state.basket.basket;
 
