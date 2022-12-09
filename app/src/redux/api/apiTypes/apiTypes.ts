@@ -16,3 +16,7 @@ export interface signInApi {
   email: string;
   password: string;
 }
+
+export interface serverTokenType {
+  token: string;
+}

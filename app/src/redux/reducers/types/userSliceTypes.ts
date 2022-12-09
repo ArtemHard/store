@@ -1,9 +1,16 @@
+import {
+  dataUserFromServer,
+  serverTokenType,
+} from "../../api/apiTypes/apiTypes";
+
 export interface UserSliceType {
-  user: UserType | null;
+  user: UsersTypes;
 }
 
+export type UsersTypes = UserType | null | dataUserFromServer | serverTokenType;
+
 export interface UserType {
-  id: string;
+  id: number;
   name: string;
   email: string;
   phone: string;

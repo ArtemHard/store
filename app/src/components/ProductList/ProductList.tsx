@@ -3,6 +3,8 @@ import ProductItem from "../ProductCard/ProductItem";
 import { signInApi, signUpApi } from "../../redux/api/apiTypes/apiTypes";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { basketSlice } from "../../redux/reducers/basketSlice";
+import { addUser } from "../../redux/reducers/userSlice";
+import { useEffect } from "react";
 
 const ProductList = () => {
   // const {
@@ -11,57 +13,72 @@ const ProductList = () => {
   //   isLoading,
   // } = productsApi.useGetAllProductQuery();
 
-  // const [signUp, {}] = productsApi.useSignUpMutation();
-  // const [signIn, {}] = productsApi.useSignInMutation();
+  const [
+    signUp,
+    { data: signUpData, isSuccess: signUpSuccess, fulfilledTimeStamp },
+  ] = productsApi.useSignUpMutation();
+  const [signIn, { data: signInData, isSuccess: signInSuccess }] =
+    productsApi.useSignInMutation();
 
   const dispatch = useAppDispatch();
 
-  // const signUpHandler = async () => {
-  //   const user: signUpApi = {
-  //     name: "Artem",
-  //     email: "123@mail.ru",
-  //     password: "123456",
-  //     phone: "+791568432115",
-  //   };
-
-  //   await signUp(user);
-  // };
-
-  // const signInHandler = async () => {
-  //   const logInUser: signInApi = {
-  //     email: "123@mail.ru",
-  //     password: "123456",
-  //   };
-  //   await signIn(logInUser);
-  // };
-
-  const basketProducts = useAppSelector((store) => store.basket.basket);
-
-  const { addProductBasket, removeProductBasket } = basketSlice.actions;
-  const addProductHandler = () => {
-    const product = {
-      productId: 1,
-      count: 1,
-    };
-    dispatch(addProductBasket({ ...product }));
-  };
-
-  const removeProductHandler = () => {
-    const product = {
-      productId: 1,
-      count: 10,
+  const signUpHandler = async () => {
+    const user: signUpApi = {
+      name: "Artem",
+      email: "123@mail.ru",
+      password: "123456",
+      phone: "+791568432115",
     };
 
-    dispatch(removeProductBasket({ ...product }));
+    await signUp(user);
+    if (signUpData !== undefined) {
+      dispatch(addUser(signUpData));
+    }
   };
+
+  const signInHandler = async () => {
+    const logInUser: signInApi = {
+      email: "123@mail.ru",
+      password: "123456",
+    };
+    await signIn(logInUser);
+  };
+
+  useEffect(() => {
+    if (signInData !== undefined && signInSuccess) {
+      dispatch(addUser(signInData));
+    }
+    if (signUpData !== undefined && signUpSuccess) {
+      dispatch(addUser(signUpData));
+    }
+  }, [dispatch, signInData, signInSuccess, signUpData, signUpSuccess]);
+  // const basketProducts = useAppSelector((store) => store.basket.basket);
+
+  // const { addProductBasket, removeProductBasket } = basketSlice.actions;
+  // const addProductHandler = () => {
+  //   const product = {
+  //     productId: 1,
+  //     count: 1,
+  //   };
+  //   dispatch(addProductBasket({ ...product }));
+  // };
+
+  // const removeProductHandler = () => {
+  //   const product = {
+  //     productId: 1,
+  //     count: 1,
+  //   };
+
+  //   dispatch(removeProductBasket({ ...product }));
+  // };
 
   return (
     <div className='products__list'>
-      {basketProducts.map((product) => `${product.count}`)}
+      {/* {basketProducts.map((product) => `${product.count}`)}
       <button onClick={addProductHandler}>+</button>
-      <button onClick={removeProductHandler}>-</button>
-      {/* <button onClick={signUpHandler}>SignUp</button> */}
-      {/* <button onClick={signInHandler}>SignIn</button> */}
+      <button onClick={removeProductHandler}>-</button> */}
+      <button onClick={signUpHandler}>SignUp</button>
+      <button onClick={signInHandler}>SignIn</button>
       {/* {isLoading && <h1>Идёт загрузка...</h1>} */}
       {/* {error && <h1>Произошла ошибка при загрузке</h1>}
       {products?.map((product) => (
