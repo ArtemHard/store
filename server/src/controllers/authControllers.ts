@@ -61,6 +61,7 @@ const SignUp = async (req: Request, res: Response): Promise<Response> => {
         email: user.email,
         name: user.name,
         token: token,
+        orders: [],
       };
       console.log(token);
 
@@ -78,13 +79,18 @@ const SignIn = async (req: Request, res: Response): Promise<Response> => {
     const authorized = await bcryptCompare(
       password,
       db.persons[personIndex].password
-    ); // сравниваем пароль
+    );
+    // сравниваем пароль
     if (authorized === true) {
-      return res.status(200).json({
-        token: jwt.sign({ user: db.persons[personIndex].name }, JWT_SECRET, {
+      const { id, email, name, orders } = db.persons[personIndex];
+      const token = jwt.sign(
+        { user: db.persons[personIndex].name },
+        JWT_SECRET,
+        {
           expiresIn: "120ms",
-        }),
-      });
+        }
+      );
+      return res.status(200).json({ id, email, name, token, orders });
     }
   }
 
