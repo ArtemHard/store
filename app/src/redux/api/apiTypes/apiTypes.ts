@@ -18,5 +18,5 @@ export interface signInApi {
 }
 
 export interface serverTokenType {
-  token: string;
+  token?: string;
 }

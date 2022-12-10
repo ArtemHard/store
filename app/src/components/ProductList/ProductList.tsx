@@ -48,10 +48,13 @@ const ProductList = () => {
     if (signInData !== undefined && signInSuccess) {
       dispatch(addUser(signInData));
     }
+  }, [signInData, signInSuccess]);
+
+  useEffect(() => {
     if (signUpData !== undefined && signUpSuccess) {
       dispatch(addUser(signUpData));
     }
-  }, [dispatch, signInData, signInSuccess, signUpData, signUpSuccess]);
+  }, [signUpData, signUpSuccess]);
   // const basketProducts = useAppSelector((store) => store.basket.basket);
 
   // const { addProductBasket, removeProductBasket } = basketSlice.actions;

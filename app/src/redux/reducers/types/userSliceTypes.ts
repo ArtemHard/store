@@ -7,13 +7,14 @@ export interface UserSliceType {
   user: UsersTypes;
 }
 
-export type UsersTypes = UserType | null | dataUserFromServer | serverTokenType;
+export type UsersTypes = UserType | dataUserFromServer | null | serverTokenType;
 
 export interface UserType {
   id: number;
   name: string;
   email: string;
   phone: string;
+  token?: string;
   additionalPhone?: {
     phone: string;
     describe: string;
