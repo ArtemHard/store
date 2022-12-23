@@ -13,23 +13,27 @@ const Header = () => {
     <HeaderStyled>
       <LogoContainer>
         <Logo />
-        <LogoTitle>LOGO</LogoTitle>
+        <LogoTitle>NameCompany</LogoTitle>
       </LogoContainer>
       <Navigation>
         <NavigationItem>
-          <NavigationLink to='/'>Ссылка куда-то</NavigationLink>
+          <NavigationLink to='/'>Главная</NavigationLink>
         </NavigationItem>
         <NavigationItem>
-          <NavigationLink to='/'>Ссылка куда-то</NavigationLink>
+          <NavigationLink to='/'>Каталог</NavigationLink>
         </NavigationItem>
         <NavigationItem>
-          <NavigationLink to='/'>Ссылка куда-то</NavigationLink>
+          <NavigationLink to='/'>Контакты</NavigationLink>
         </NavigationItem>
         <NavigationItem>
-          <NavigationLink to='/'>Ссылка куда-то</NavigationLink>
+          <NavigationLink to='/'>О нас</NavigationLink>
         </NavigationItem>
       </Navigation>
-      <div>
+      <div style={{ color: "red", display: "flex", gap: "2%" }}>
+        <h3>Иконка Профиля</h3>
+        <h3>Иконка Корзины</h3>
+      </div>
+      <div style={{ display: "none" }}>
         <h2 style={{ color: "red" }}>Burger</h2>
       </div>
     </HeaderStyled>

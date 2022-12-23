@@ -12,7 +12,8 @@ const HeaderStyled = styled.header`
   height: 80px;
   display: flex;
   justify-content: space-between;
-  padding: 2rem;
+  align-items: center;
+  /* padding: 0.5rem 2rem; */
   flex-wrap: nowrap;
 `;
 
