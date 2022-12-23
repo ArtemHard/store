@@ -1,10 +1,11 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
-import App from "./App";
 import "./index.css";
 import { store } from "./redux/store";
 import { GlobalStyle } from "./styles/global";
+import { RouterProvider } from "react-router-dom";
+import router from "./router";
 // import { ThemeProvider } from 'styled-components'
 // import { theme } from "./styles/theme";
 
@@ -16,7 +17,7 @@ root.render(
     <Provider store={store}>
       {/* <ThemeProvider theme={theme}> */}
       <GlobalStyle />
-      <App />
+      <RouterProvider router={router} />
       {/* </ThemeProvider> */}
     </Provider>
   </React.StrictMode>
