@@ -1,6 +1,6 @@
 import "./App.css";
 import Header from "./components/Header/Header";
-// import ProductList from "./components/ProductList/ProductList";
+import ProductList from "./components/ProductList/ProductList";
 import { useAppDispatch } from "./hooks/hooks";
 import { productsSlice } from "./redux/reducers/productsSlice";
 
@@ -11,7 +11,7 @@ function App() {
   return (
     <>
       <Header />
-      {/* <ProductList /> */}
+      <ProductList />
     </>
   );
 }

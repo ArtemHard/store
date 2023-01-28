@@ -1,12 +1,5 @@
-import {
-  HeaderStyled,
-  LogoContainer,
-  Logo,
-  LogoTitle,
-  Navigation,
-  NavigationItem,
-  NavigationLink,
-} from "./header.styles";
+import { HeaderStyled, LogoContainer, Logo, LogoTitle } from "./header.styles";
+import { NavMenu } from "./NavMenu/NavMenu";
 
 const Header = () => {
   return (
@@ -15,20 +8,7 @@ const Header = () => {
         <Logo />
         <LogoTitle>NameCompany</LogoTitle>
       </LogoContainer>
-      <Navigation>
-        <NavigationItem>
-          <NavigationLink to='/'>Главная</NavigationLink>
-        </NavigationItem>
-        <NavigationItem>
-          <NavigationLink to='/'>Каталог</NavigationLink>
-        </NavigationItem>
-        <NavigationItem>
-          <NavigationLink to='/'>Контакты</NavigationLink>
-        </NavigationItem>
-        <NavigationItem>
-          <NavigationLink to='/'>О нас</NavigationLink>
-        </NavigationItem>
-      </Navigation>
+      <NavMenu />
       <div style={{ color: "red", display: "flex", gap: "2%" }}>
         <h3>Иконка Профиля</h3>
         <h3>Иконка Корзины</h3>

@@ -1,6 +1,5 @@
 // Какая-тоКомпонента.tsx
 
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const blackColor = "#000000";
@@ -32,25 +31,4 @@ const LogoTitle = styled.h1`
   color: white;
 `;
 
-const Navigation = styled.ul`
-  display: flex;
-  gap: 20px;
-`;
-
-const NavigationItem = styled.li`
-  color: yellow;
-`;
-
-const NavigationLink = styled(Link)`
-  color: inherit;
-`;
-
-export {
-  HeaderStyled,
-  LogoContainer,
-  Logo,
-  LogoTitle,
-  Navigation,
-  NavigationItem,
-  NavigationLink,
-};
+export { HeaderStyled, LogoContainer, Logo, LogoTitle };
